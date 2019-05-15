@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dorgtech/daocomponents": "0.0.1-alpha",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"npm:start:app\" \"npm:start:env\"",
+    "start:app": "react-scripts start",
+    "start:env": "docker-compose -f ./node_modules/@daostack/client/docker-compose.yml up graph-node",
+    "stop:env": "docker-compose -f ./node_modules/@daostack/client/docker-compose.yml down -v",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -27,5 +31,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0"
   }
 }

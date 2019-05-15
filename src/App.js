@@ -1,9 +1,16 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {
+  Arc,
+  DefaultArcConfig,
+  DAOs,
+  DAO
+} from '@dorgtech/daocomponents';
 
 function App() {
   return (
+    <Arc config={DefaultArcConfig}>
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -18,8 +25,14 @@ function App() {
         >
           Learn React
         </a>
+        <DAOs>
+          <DAO.Data>
+          {data => (<div>{data.name}</div>)}
+          </DAO.Data>
+        </DAOs>
       </header>
     </div>
+    </Arc>
   );
 }
 

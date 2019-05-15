@@ -4,35 +4,56 @@ import './App.css';
 import {
   Arc,
   DefaultArcConfig,
-  DAOs,
-  DAO
+  Proposals,
+  Proposal
 } from '@dorgtech/daocomponents';
+import {
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Typography,
+  Button
+} from '@material-ui/core';
+import { IProposalOutcome } from '@daostack/client';
 
 function App() {
   return (
-    <Arc config={DefaultArcConfig}>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <DAOs>
-          <DAO.Data>
-          {data => (<div>{data.name}</div>)}
-          </DAO.Data>
-        </DAOs>
-      </header>
-    </div>
+    <Arc config={DefaultArcConfig}>
+    <Proposals allDAOs={true}>
+      <Proposal.Data>
+      <Proposal.Entity>
+      {(data, entity) => {
+        const { id, title, url, description } = data;
+
+        return (
+          <ExpansionPanel>
+            <ExpansionPanelSummary>
+              <Typography>{id}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Typography>some info: {description}</Typography>
+              <Typography>url: {url}</Typography>
+              <Button onClick={async () => {
+                const tx = entity.stake(IProposalOutcome.Pass, 5);
+                await tx.toPromise();
+              }}>
+                Up Stake
+              </Button>
+              <Button onClick={async () => {
+                
+              }}>
+                Down Stake
+              </Button>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        );
+      }}
+      </Proposal.Entity>
+      </Proposal.Data>
+    </Proposals>
     </Arc>
+    </div>
   );
 }
 
